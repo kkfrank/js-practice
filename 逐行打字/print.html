@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>逐行打字演示</title>
+
+	<style type="text/css">
+		.each-line{
+			width: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			animation:animate-line 3s forwards;
+		}
+		@keyframes animate-line{
+			from{width:0;}
+			to{width:100%;}
+		}
+	</style>
+</head>
+<body>
+	<div id="content">
+		<p class="each-line">/*首先是注释*/</p>
+		<p class="each-line">function(){</p>
+		<p class="each-line">console.log("hello world")</p>
+		<p class="each-line">console.log("hello world world world world world world world world world world world world world ")</p>
+		<p class="each-line">}</p>
+	</div>
+	<script src="./print.js"></script>
+	<script>
+		var p=new Printer(document.getElementById("content"));
+		p.clear();
+		p.print("/*首先是注释*/")
+		p.print("function(){")
+		p.print("console.log('hello world  world world world world world world world world world world world world world world world world world world world world world world')")
+		p.clear();
+		p.print("}")
+	</script>
+</body>
+</html>
