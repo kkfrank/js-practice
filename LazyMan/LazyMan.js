@@ -1,5 +1,5 @@
 /**
-*  this is
+*  test git
 **/
 function LazyMan(text){
 	return new _LazyMan(text);
