@@ -1,3 +1,6 @@
+/**
+*  this is
+**/
 function LazyMan(text){
 	return new _LazyMan(text);
 }
