@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>春游抽奖</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="main">
+    <div class="lottery_box">
+        <p class="name" id="myname">XXX</p>
+        <p class="departm" id="departm">XXX</p>
+        <div class="lottery_num" id="box">
+            <ul style="top:-1800px;">
+                <li>9</li>
+                <li>8</li>
+                <li>7</li>
+                <li>6</li>
+                <li>5</li>
+                <li>4</li>
+                <li>3</li>
+                <li>2</li>
+                <li>1</li>
+                <li>0</li>
+            </ul>
+            <ul style="top:-1800px;">
+                <li>9</li>
+                <li>8</li>
+                <li>7</li>
+                <li>6</li>
+                <li>5</li>
+                <li>4</li>
+                <li>3</li>
+                <li>2</li>
+                <li>1</li>
+                <li>0</li>
+            </ul>
+            <ul style="top:-1800px;">
+                <li>9</li>
+                <li>8</li>
+                <li>7</li>
+                <li>6</li>
+                <li>5</li>
+                <li>4</li>
+                <li>3</li>
+                <li>2</li>
+                <li>1</li>
+                <li>0</li>
+            </ul>
+            <ul style="top:-1800px;">
+                <li>9</li>
+                <li>8</li>
+                <li>7</li>
+                <li>6</li>
+                <li>5</li>
+                <li>4</li>
+                <li>3</li>
+                <li>2</li>
+                <li>1</li>
+                <li>0</li>
+            </ul>
+            <ul style="top:-1800px;">
+                <li>9</li>
+                <li>8</li>
+                <li>7</li>
+                <li>6</li>
+                <li>5</li>
+                <li>4</li>
+                <li>3</li>
+                <li>2</li>
+                <li>1</li>
+                <li>0</li>
+            </ul>
+            <ul style="top:-1800px;">
+                <li>9</li>
+                <li>8</li>
+                <li>7</li>
+                <li>6</li>
+                <li>5</li>
+                <li>4</li>
+                <li>3</li>
+                <li>2</li>
+                <li>1</li>
+                <li>0</li>
+            </ul>
+        </div>
+        <div class="pull" id="pull">
+            <img src="images/pull.jpg" id="pic">
+        </div>
+    </div>
+</div>
+<script src="./js/lottery.js"></script>
+<script>
+    var box=document.getElementById("box");
+    var li=box.getElementsByTagName("li")[0];
+    var height=li.getBoundingClientRect().bottom-li.getBoundingClientRect().top;//li的高度
+    var ulArr=box.getElementsByTagName("ul");
+
+    var lotteryArr=[];//数字对象数组
+    for(var i= 0,ul;ul=ulArr[i++];){
+        var lottery=new Lottery({
+            elem:ul,
+            speed:16-i
+        });
+        lotteryArr.push(lottery);
+    }
+
+    var manager=new LotteryManager(lotteryArr);
+
+    var myname=document.getElementById("myname");
+    var departm=document.getElementById("departm");
+    var image=document.getElementById("pic");
+    var pull=document.getElementById("pull");
+
+    pull.onclick=function(){
+        if(this.className.indexOf("on")<0){//开始
+            if(!manager.isStop){//动画没停止，不可点击
+                return;
+            }
+            myname.innerHTML="XXX";
+            departm.innerHTML="XXX";
+            addClassName(this,"on");
+
+            var imgObj=new Image();//gif图片播放一遍，重新获取
+            imgObj.src="./images/pull.gif?"+new Date();
+            image.setAttribute("src",imgObj.src);
+
+            manager.startAll();
+        }else{//结束
+            removeClassName(this,"on");
+			var imgObj=new Image();
+            imgObj.src="./images/pull.gif?"+new Date();
+            image.setAttribute("src",imgObj.src);
+
+            var luckyOne=generate(6);//6位数
+       /*     if(!luckyOne){//为空
+                manager.stopAll([0,0,0,0,0,0],function(){
+                    myname.innerHTML="没人了";
+                });
+                return;
+            }*/
+            manager.stopAll(luckyOne.nums,function(){//一个中奖工号数组，一个回调函数
+                myname.innerHTML=luckyOne.name;
+                departm.innerHTML=luckyOne.departm;
+            });
+        }
+    }
+
+</script>
+</body>
+</html>
