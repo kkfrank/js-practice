@@ -1,4 +1,1 @@
-git si a version control system
-git is free software
-git has a mutable index called stage
-git tracks changes of files
+工作中做的小需求
