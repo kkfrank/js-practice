@@ -1,0 +1,149 @@
+@charset "utf-8";
+* {margin:0;padding:0; vertical-align:middle}
+li{list-style: none;}
+
+.sui-tree{
+    position: relative;
+    box-sizing: border-box;
+    min-width: 250px;
+    min-height: 540px;
+    font-size: 12px;
+    float: left;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 0 20px #d6d6d6;
+}
+.sui-tree a{
+    vertical-align: baseline;
+    cursor: pointer;
+}
+.sui-tree a.on{
+    background-color: #40ad5e;
+    color: #fff;
+    padding: 3px 5px;
+}
+/*.sui-tree li{
+    margin-bottom:8px;
+}*/
+.sui-tree li{
+    padding-bottom:8px;
+}
+.sui-tree ul li:last-child{
+    padding-bottom:0;
+}
+.sui-tree li.disable{
+    background: #eee;
+    cursor: not-allowed;
+}
+.sui-tree .last-item{
+    padding-left: 25px;
+}
+.sui-tree li>span{
+    float: left;
+    /*margin-right: 7px;*/
+}
+.sui-tree>ul li>ul{
+    display: none;
+    margin-top: 8px;
+    margin-left: 23px;
+}
+.sui-tree>ul li.tree-item-expanded>ul{
+    display: block;
+}
+.tree-icon-expander{
+    background: url(../images/sprite.png)  0 -21px;
+    width: 18px;
+    height: 15px;
+    margin-right: 7px;
+    cursor: pointer;
+}
+.tree-icon-expander-empty{
+    width: 18px;
+    height: 15px;
+    margin-right: 7px;
+}
+.tree-item-expanded>.tree-icon-expander{
+    /*background-image: url(../images/sprite.png);*/
+    background-position: -20px -21px;
+    /*width: 18px;*/
+    /*height: 15px;*/
+}
+.sui-tree li .tree-icon-checkbox{
+    background-image: url(../images/sprite.png);
+    background-position: -21px 0px;
+    width: 16px;
+    height: 16px;
+    display: none;
+    margin-right: 6px;
+    cursor: pointer;
+}
+.sui-tree .show-check .tree-icon-checkbox{
+    display: block;
+}
+.sui-tree .tree-icon-checkbox.on{
+    background-image: url(../images/sprite.png);
+    background-position: 0px 0px;
+    width: 16px;
+    height: 16px;
+}
+.tree-icon-folder{
+    background-image: url(../images/sprite.png);
+    background-position: -42px -19px;
+    width: 16px;
+    height: 13px;
+    margin-right: 6px;
+}
+.tree-item-expanded>.tree-icon-folder{
+    background-image: url(../images/sprite.png);
+    background-position: -42px 0px;
+    width: 16px;
+    height: 14px;
+}
+
+/**右键菜单**/
+.tree-right-menu{
+    position: absolute;
+    border: 1px solid #e2e2e2;
+    /*padding: 10px;*/
+    background-color: #fff;
+    width: 100px;
+}
+.tree-right-menu>ul>li{
+    position: relative;
+    padding: 3px 6px;
+}
+.tree-right-menu .disable{
+    background-color: #ddd;
+    cursor: not-allowed;
+    color: #999;
+}
+.tree-right-menu .second-menu{
+    position: absolute;
+    left: 100px;
+    top:4px;
+    width: 100px;
+    background-color: #fff;
+    border: 1px solid #e2e2e2;
+    padding: 10px;
+}
+
+/*loading*/
+.tree-loading{
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0,0,0);
+    opacity: 0.5;
+}
+.tree-loading p{
+    position: absolute;
+    top: 50%;
+    left: 33%;
+    font-size: 20px;
+    opacity: 1;
+    color: #fff;
+}

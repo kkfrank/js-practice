@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>航线信息查询详情</title>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="css/tree.css" />
+    <style>
+
+    </style>
+</head>
+    <div class="sui-tree" id="t1">
+        <!--<ul>-->
+            <!--<li class="tree-item-expanded">-->
+                <!--<span class="tree-icon-expander"></span>-->
+                <!--<span class="tree-icon-checkbox"></span>-->
+                <!--<span class="tree-icon-folder"></span>-->
+                <!--<a>一级菜单</a>-->
+                <!--<ul>-->
+                    <!--<li>-->
+                        <!--<span class="tree-icon-expander"></span>-->
+                        <!--<span class="tree-icon-checkbox"></span>-->
+                        <!--<span class="tree-icon-folder"></span>-->
+                        <!--<a>工具管理</a>-->
+                        <!--<ul>-->
+                            <!--<li>-->
+                                <!--<span class="tree-icon-expander"></span>-->
+                                <!--<span class="tree-icon-checkbox"></span>-->
+                                <!--<span class="tree-icon-folder"></span>-->
+                                <!--<a>质量管理</a>-->
+                                <!--<ul class="last-child">-->
+                                    <!--<li>-->
+                                        <!--<span class="tree-icon-checkbox"></span>-->
+                                        <!--<a>HH1</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<span class="tree-icon-checkbox"></span>-->
+                                        <!--<a>HH2</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<span class="tree-icon-checkbox"></span>-->
+                                        <!--<a>HH3</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<span class="tree-icon-checkbox"></span>-->
+                                        <!--<a>HH4</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<span class="tree-icon-checkbox"></span>-->
+                                        <!--<a>HH5</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<span class="tree-icon-checkbox"></span>-->
+                                        <!--<a>HH6</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<span class="tree-icon-checkbox"></span>-->
+                                        <!--<a>HH7</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<span class="tree-icon-checkbox"></span>-->
+                                        <!--<a>HH8</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<span class="tree-icon-expander"></span>-->
+                <!--<span class="tree-icon-checkbox"></span>-->
+                <!--<span class="tree-icon-folder"></span>-->
+                <!--<a>基本信息管理</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<span class="tree-icon-expander"></span>-->
+                <!--<span class="tree-icon-checkbox"></span>-->
+                <!--<span class="tree-icon-folder"></span>-->
+                <!--<a>系统管理</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<span class="tree-icon-expander"></span>-->
+                <!--<span class="tree-icon-checkbox"></span>-->
+                <!--<span class="tree-icon-folder"></span>-->
+                <!--<a>基本信息管理</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<span class="tree-icon-expander"></span>-->
+                <!--<span class="tree-icon-checkbox"></span>-->
+                <!--<span class="tree-icon-folder"></span>-->
+                <!--<a>系统管理</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<span class="tree-icon-expander"></span>-->
+                <!--<span class="tree-icon-checkbox"></span>-->
+                <!--<span class="tree-icon-folder"></span>-->
+                <!--<a>基本信息管理</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<span class="tree-icon-expander"></span>-->
+                <!--<span class="tree-icon-checkbox"></span>-->
+                <!--<span class="tree-icon-folder"></span>-->
+                <!--<a>系统管理</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+    <!--    <div class="tree-loading" style="display: none;">
+            <p>加载中...</p>
+        </div>-->
+    </div>
+    <!--<div class="tree-right-menu">
+    <ul>
+        <li>增加
+            <ul class="second-menu">
+                <li>在上方添加</li>
+                <li>在下方添加</li>
+                <li>子文件夹</li>
+            </ul>
+        </li>
+        <li>删除</li>
+        <li>复制
+            <ul class="second-menu">
+                <li>页面</li>
+                <li>包括子文件夹</li>
+            </ul>
+        </li>
+        <li>重命名</li>
+    </ul>
+</div>-->
+
+<body>
+    <script src="js/jquery-1.8.1.min.js"></script>
+    <script src="js/tree.js"></script>
+    <script>
+        console.log($('.sui-tree').closest('.sui-tree'))
+        var data=[
+            {ppId:"1",sort_num:"1",ppName:"一级菜单1",checked:false,expended:true,children:[{ppId:"11",ppName:"工具管理",expended:true,children:[{ppId:"111",ppName:"质量管理",expended:true,children:[{ppId:"1111",ppName:"HH1"},{ppId:"1112",ppName:"HH2"},{ppId:"1113",ppName:"HH3"},{ppId:"1114",ppName:"HH4"},{ppId:"1115",ppName:"HH5"},{ppId:"1116",ppName:"HH6"},{ppId:"1117",ppName:"HH7"}]}]}]},
+            {ppId:"2",sort_num:"2",ppName:"一级菜单2",children:[]},
+            {ppId:"3",sort_num:"3",ppName:"一级菜单3",children:[]},
+            {ppId:"4",sort_num:"4",ppName:"一级菜单4",children:[]},
+            {ppId:"5",sort_num:"5",ppName:"一级菜单5",children:[]},
+            {ppId:"6",sort_num:"6",ppName:"一级菜单6",children:[]},
+            {ppId:"7",sort_num:"7",ppName:"一级菜单7",children:[]},
+            {ppId:"8",sort_num:"9",ppName:"一级菜单8",children:[]},
+            {ppId:"9",sort_num:"8",ppName:"一级菜单9",children:[{ppId:'91',ppName:'HH!',children:[{ppId:'911',ppName:'HH!'},{ppId:'912',ppName:'HH!'},{ppId:'913',ppName:'HH!'}]},{ppId:'92',ppName:'HH!',children:[{ppId:'921',ppName:'HH!'}]},{ppId:'93',ppName:'HH!'}]}
+        ]
+        var tree=new Tree({
+            render:"#t1",
+            data:data,
+            checkType:"all",//all:显示选中，none：不显示.默认none,
+            load:{//异步加载
+                url:""
+            },
+            rename:{//重命名
+                url:"/rename",
+                data:{},
+                type:"GET",//默认是get
+                success:function(callback){
+
+                },
+                error:function(callback){
+
+                },
+                callback:function(data){
+                    if(data.err){
+                        return
+                    }
+                    console.log('重命名callback',data)
+                }
+            },
+            disable:{//禁用 取消禁用
+                url:"192.168.9.192/disable",
+                type:"GET",
+                callback:function(data){
+                    if(data.err){
+                        return
+                    }
+                    console.log('禁用callback',data)
+                }
+            },
+            insert:{
+                url:'/insert',
+                type:"GET",
+                callback:function(){
+                    if(data.err){
+                        return
+                    }
+                    console.log('新增callback',data)
+                }
+            }
+        })
+    </script>
+</body>
+</html>
