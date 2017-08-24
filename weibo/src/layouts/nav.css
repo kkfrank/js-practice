@@ -1,0 +1,25 @@
+.header{
+	max-width: 800px;
+    margin: 0 auto;
+}
+.site-nav{
+	float: right;
+}
+.site-nav a{
+	float: left;
+	padding: 4px 12px;
+	text-decoration: none;
+	  border-top: 4px solid #fff;
+}
+.site-nav a:first-child{
+	/*margin-right: 10px;*/
+}
+
+.site-nav a.active{
+	color: #009688;
+    border-top: 4px solid #009688;
+}
+.container{
+	max-width: 800px;
+	margin: 0 auto;
+}
