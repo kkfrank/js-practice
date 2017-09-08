@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>组件</title>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+
+    <link rel="stylesheet" href="css/bui-min.css">
+    <link rel="stylesheet" href="css/dpl-min.css">
+    <link rel="stylesheet" href="css/system.css">
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" type="text/css" href="css/fm.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-fm.css" />
+    <style>
+        .gantt-body{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            /*transform: scale(.8);*/
+            transform-origin: 0 0;
+        }
+        .timePoint.scale3x{
+            /*width: 100%;*/
+            /*overflow: hidden;*/
+        }
+        .shrink {
+            position: absolute;
+            top: 0;
+        }
+        .aircraft_nos {
+            position: absolute;
+            top: 44px;
+        }
+        .c_box{
+            height: calc(100% - 111px);
+            width: calc(100% - 90px);
+        }
+    </style>
+</head>
+    <div class="loading" id="loading" style="display: none;">
+        <img src="images/loading.gif">
+    </div>
+    <div class="fm_container">
+        <div class="header">
+            <div class="calendar-box">
+                <i class="icon-fm033" data-action="preDay"></i>
+                <label>
+                    <input type="text" id="fltDate" value="" readonly="" class="no-select">
+                    <i class="icon-fm001"></i>
+                </label>
+                <i class="icon-fm034" data-action="nextDay"></i>
+            </div>
+            <span class="filters" data-action="sift">
+                <i class="icon-fm014"></i>
+                <i class="isShift"> </i>
+            </span>
+            <i class="icon-fm015" data-action="moveToday"></i>
+            <i class="icon-fm016" data-action="query" id="query"></i>
+            <div class="search-area">
+                <input type="text" placeholder="航班或机号" id="acno_text" autocomplete="off">
+                <i class="icon-fm011" data-action="searchNum"></i>
+            </div>
+            <div class="hour-split">
+                <div class="hour-line"></div>
+                <div class="hour-scale scale-1x">
+                    <i class="lf"></i>
+                    <i class="rf"></i>
+                    <span>1X</span>
+                </div>
+                <div class="hour-scale scale-2x">
+                    <i class="lf"></i>
+                    <i class="rf"></i>
+                    <span>2X</span>
+                </div>
+                <div class="hour-scale scale-3x">
+                    <i class="lf"></i>
+                    <i class="rf"></i>
+                    <span>3X</span>
+                </div>
+                <div class="hour-scale scale-4x">
+                    <i class="lf"></i>
+                    <i class="rf"></i>
+                    <span>4X</span>
+                </div>
+                <span class="probar scale2x"></span>
+            </div>
+        </div>
+        <div class="gantt-body"></div>
+    </div>
+<body>
+<script src="js/jquery-1.8.1.min.js"></script>
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="js/Drag.js"></script>
+<script src="js/bui.js"></script>
+<script src="js/gantt.js"></script>
+<script>
+    BUI.use(["bui/calendar","bui/overlay","bui/mask"],function(Calendar,Overlay,Mask) {
+        var datepicker = new Calendar.DatePicker({
+            trigger: "#fltDate",
+            dateMask: "yyyy-mm-dd",
+            elCls: "no-clear",
+            autoRender: true
+        });
+
+        $(function(){
+            $.ajax({
+                url:"./data/1.json",
+                method:"get",
+                success:function(data){
+
+                    var g=new Gantt({
+                        el:'.fm_container',
+                        data:data,
+                        searchDate:'2017-09-04',
+                        scale:2//刻度，默认是1
+                    })
+
+
+                }
+            })
+        })
+
+    })
+
+
+
+
+</script>
+</body>
+</html>
