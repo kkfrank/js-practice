@@ -16,7 +16,7 @@
 
 		</TopHeader>
 
-		<LeftBar></LeftBar>
+		<!-- <LeftBar></LeftBar> -->
 		<div class="main">
 			<TopImgBox :sliderList="sliderList"></TopImgBox>
 			<List :list="homeDataList"></List>
@@ -32,14 +32,21 @@
 	import axios from 'axios'
 	import API from '../constants/index.js'
 	import moment from 'moment'
-		const today=moment().format('YYYYMMDD')
+	const today=moment().format('YYYYMMDD')
 	export default{
 		created:function(){
 		    //this.getNews()
-		    this.$store.dispatch({
+		    console.log('home created')
+		    this.$store.dispatch({//获取当天列表的数据
 		    	type:"getHomeListToday"
 		    })
+		    document.body.scrollTop=this.$store.state.prevScrollTop+"px"
 		},
+	/*	beforeRouteLeave(to,from,next){
+			console.log('beforeEnter',to,from)
+			this.$store.state.prevScrollTop=document.body.scrollTop
+			next()
+		},*/
 	 	methods:{
 			showLeftBar(){
 				this.$store.commit('showLeftBar')
@@ -56,20 +63,17 @@
 				return this.$store.state.topBar.type
 			},
 			homeDataList(){
-				//const today=moment().format('YYYYMMDD')
-				console.log('today',this.$store.getters.homeDataList)
-
-				//return this.$store.state.homeTodayData
-				return this.$store.getters.homeDataList
-			},
-			list:function(){
-				return this.$store.state.list
+				//return this.$store.state.home.homeList
+				return this.$store.getters.homeListTillDay
 			},
 			sliderList(){
-				if(!this.$store.state.homeTodayData[0]){
+				if(!this.$store.state.home.homeList[0]){
 					return []
 				}
-				return this.$store.state.homeTodayData[0].data.top_stories || []
+				return this.$store.state.home.homeList[0].top_stories || []
+			},
+			themeTypes(){
+				return this.$store.state.theme.themeTypes
 			}
 		}
 	}

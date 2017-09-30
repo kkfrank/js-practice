@@ -2,7 +2,8 @@
 	<div>
 		<!-- <TopBar/> -->
 		<div class="loading"></div>
-		<router-view></router-view>
+		<router-view name="main"></router-view>
+		<router-view name="leftbar"></router-view>
 	</div>
 </template>
 
@@ -16,6 +17,7 @@
 				msg:"hello world"
 			}
 		},
+		
 		components:{
 			TopBar,
 		},
@@ -25,6 +27,10 @@
 			}
 		},
 		created(){
+		    this.$store.dispatch({//获取theme的种类
+		    	type:"getThemesTypes"
+		    })
+
 			var that=this,type=this.type,isUp=true
 		    window.addEventListener('scroll',function(ev){
 		    	//console.log(document.body.scrollTop)
@@ -38,7 +44,8 @@
 		    		console.log('到底了',type)
 		    		if(type==="list" || type==="theme"){
 		    			that.$store.dispatch({
-			    			type:"loadMore"
+			    			type:"loadMore",
+			    			id:that.$route.params.id
 			    		})	
 		    		}
 		    	}
@@ -90,8 +97,14 @@
 		padding: 0;
 		box-sizing:border-box;
 	}
+	a{
+		text-decoration: none;
+	}
 	li{
 		list-style: none;
+	}
+	.router-link-active{
+		color: #f00;
 	}
 	.loading{
 	    position: fixed;

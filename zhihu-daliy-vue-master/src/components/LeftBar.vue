@@ -19,11 +19,12 @@
 
 			<div class="leftbar-bottom">
 			<!-- 	<h2 @click="showHome">	</h2> -->
-				<router-link to="/"  class="jump-home">
+				<a class="jump-home" @click="jumpHome">
+				<!-- <router-link :to="homePath"  class="jump-home" @click="jumpHome"> -->
 					<icon name="home" scale=1.3 class="navbar-icon-home"></icon> 
 					<span>首页</span>
-				</router-link>
-
+				<!-- </router-link> -->
+				</a>
 				<ul @click="changeTheme">
 					<li v-for="item in list">
 						<router-link :to="'/theme/'+item.id" class="leftbar-link" :data-id="item.id">
@@ -44,10 +45,11 @@
 
 	import logo from '../assets/logo.png'
 	export default{
+		// props:['list'],
 		data(){
 			return{
+				homePath:"/",
 				name:"台上问问",
-				list:[],
 				logo,
 				//isLeftbarShow:true
 			}
@@ -56,11 +58,25 @@
 			Icon
 		},
 		computed:{
+		/*	homePath:function(){
+				return '/'
+			},*/
 			isLeftBarShow:function(){
 				return this.$store.state.isLeftBarShow
+			},
+			list:function(){
+				return this.$store.state.theme.themeTypes
 			}
 		},
 		methods:{
+			jumpHome(){
+			    this.$store.dispatch({//获取当天列表的数据
+			    	type:"getHomeListToday"
+			    })
+				console.log(123)
+				this.$router.push({path:"/"})
+				//this.$router.go(0)
+			},
 			hideLeftBar(ev){
 				console.log(ev.target)
 				var clsName=ev.target.className
@@ -75,6 +91,7 @@
 			},
 			changeTheme(ev){
 				if(ev.target.className.indexOf('leftbar-list-icon')>=0){//关注
+					console.log('返回，关注')
 					return false
 				}
 				var id="",target=ev.target
@@ -84,21 +101,11 @@
 				id=target.getAttribute('data-id')
 
 			    this.$store.dispatch({
-			    	type:"getThemeList",
+			    	type:"getThemeListNow",
 			    	id
 			    })
 			   // this.$store.commit('toggleLeftBar')
 			}
-		},
-		created:function(){
-			axios.get(API.themes)
-				.then(data=>{
-					this.list=data.data.others
-					console.log(data)
-				})
-				.catch(err=>{
-
-				})
 		}
 	}
 </script>

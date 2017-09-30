@@ -5,75 +5,46 @@ import moment from 'moment'
 
 import API from '../constants/index.js'
 
-import moduleHome from './moduleHome'
-import moduleTheme from './moduleTheme'
+import home from './home'
+import theme from './theme'
+import detail from './detail'
 
 Vue.use(Vuex)
 const today=moment().format('YYYYMMDD')
+function haveItem(list,date){
+	for(var i=0;i<list.length;i++){
+		if(list[i].date===date){
+			return true
+		}
+	}
+	return false
+}
 const store=new Vuex.Store({
 	modules:{
-		home:moduleHome,
-		theme:moduleTheme
+		home,
+		theme,
+		detail
 	},
 	state:{
 		loading:true,
 		searchDay:today,//知乎日报查询日期：查询2016年11月18日的消息，应为 20161119
-		list:[],//主页面列表数组
-		//sliderList:[],//主页面轮播图数组
 		fresh:true,
-		//homeTodayData:[],
-		//homeBeforeData:[],
-		//themeListData:[],
-		detail:[],
 		isLeftBarShow:false,
 		topBar:{
 			type:"list",//list theme detail
 			name:"首页"
 		},
+		prevScrollTop:0,//保存列表进入详情页面之前的scrollTop值
 		editorList:[]
 	},
 	getters:{
-/*		homeDataList(state){
-			console.log('getters',state)
-			if(state.fresh){
-				return state.homeTodayData//.concat()
-			}
-			return state.homeTodayData.concat(state.homeBeforeData)
-		}	*/
 	},
 	mutations:{
 		setSearchDay(state,day){
 			state.searchDay=day
 		},
-/*		setHomeTodayData(state,data){
-			//Vue.set(state.homeTodyaData,[data.date],data)
-			//console.log('nnnnnnnnnn',data)
-			var arr=[{
-					date:data.date,
-					data:data
-			}]
-			state.homeTodayData=arr
-		
-		},
-		setHomeBeforeData(state,data){
-			if(!data){
-				state.homeBeforeData=[]	
-				return
-			}
-			state.homeBeforeData.push({
-				date:data.date,
-				data
-			})
-		},*/
-		setHomeData(state,data){
-			console.log('store',data.date)
-			//state.homeData[data.date]=data
-			//var arr=[data]
-			//state.homeData=arr
-			 Vue.set(state.homeData,[data.date],data)
-	/*		state.homeData[today].date=data.date
-			state.homeData[today].stories=data.stories
-			state.homeData[today].top_stories=data.top_stories*/
+		setLoading(state,loading){
+			state.loading=loading
 		},
 		setTopBar(state,{type,name}){
 			state.topBar.type=type
@@ -87,18 +58,6 @@ const store=new Vuex.Store({
 			state.isLeftBarShow=true
 			document.body.style="overflow:hidden;padding-right:0px;"
 		},
-/*		setList(state,data){
-			state.list=data
-		},
-		addList(state,data){
-			state.list=state.list.concat(data)
-		},*/
-/*		setSliderList(state,data){
-			state.sliderList=data
-		},*/
-		setDetail(state,data){
-			state.detail=data
-		},
 		setEditorList(state,data){
 			state.editorList=data
 		},
@@ -111,38 +70,66 @@ const store=new Vuex.Store({
 		freshMainList(context){
 			context.state.fresh=true
 		},
-		loadMore(context){
-			console.log('load',context.state.loading)
+		loadMore(context,{id}){
 			if(context.state.loading){//正在加载
 				console.log('loading......')
 				return
 			}
+			context.commit('setLoading',true)
 			var type=context.state.topBar.type
-			const beforeDay=moment(context.state.searchDay,"YYYYMMDD").subtract(1,'days').format('YYYYMMDD')
-			const have=context.state.homeBeforeData.some(data=>data.date===beforeDay)
+			//const beforeDay=moment(context.state.searchDay,"YYYYMMDD").subtract(1,'days').format('YYYYMMDD')
+			/*const have=context.state.homeBeforeData.some(data=>data.date===beforeDay)
 			context.state.fresh=false
-			if(have){//
+			if(have){
 				console.log(beforeDay+"have load before")
 				context.commit('setHomeBeforeData',beforeDay)
 				return
-			}
+			}*/
+			var url="",list=[],
+				searchDay=context.state.searchDay
 			if(type==="list"){
-				axios.get(API.getNewsByDate(context.state.searchDay))
-					.then(data=>{
-						//console.log(data)
-						//context.commit('addList',data.data.stories)
-						context.commit('setHomeBeforeData',data.data)
-						
-						context.state.searchDay=moment(context.state.searchDay,"YYYYMMDD").subtract(1,'days').format('YYYYMMDD')
-						context.state.loading=false
-					})
-					.catch(err=>{
-						context.state.loading=false
-					})
-				//context.dispatch('getHomeList')
-			}else if(type==="theme"){
-
+				list=context.state.home.homeList
+				//searchDay=list[list.length-1].date
+				//console.log('searchDay',searchDay)
+				var url=API.getNewsByDate(searchDay)
+			}else{
+				//console.log('loadmore',this)
+				//var id=this.$route.params.id
+				list=context.state.theme.themeList[id]
+				var stories=list[list.length-1].stories
+				if(stories.length===0){
+					console.log('没数据啦')
+					context.commit('setLoading',false)
+					return
+				}
+				var beforeId=stories[stories.length-1].id
+				//searchDay=list[list.length-1].date
+				url=API.getThemeListByDate(id,beforeId)
 			}
+			context.state.searchDay=moment(searchDay,"YYYYMMDD").subtract(1,'days').format('YYYYMMDD')
+			if(haveItem(list,context.state.searchDay)){//已经存在
+				console.log('已经存在')
+				return
+			}
+			axios.get(url)
+				.then(data=>{
+					if(type==="list"){
+						context.commit('setHomeList',data.data)
+					}else{
+						context.commit('setThemeList',{
+							type:id,
+							data:data.data
+						})	
+					}
+					
+					//context.state.searchDay=moment(context.state.searchDay,"YYYYMMDD").subtract(1,'days').format('YYYYMMDD')
+					context.commit('setLoading',false)
+				})
+				.catch(err=>{
+					console.error('error',err)
+					context.commit('setLoading',false)
+				})
+			
 		},
 /*		getHomeListBefore(context){
 			context.commit('hideLeftBar')

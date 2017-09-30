@@ -11,10 +11,10 @@
 			</div>
 		</TopHeader>
 
-		<LeftBar></LeftBar>
+		<!-- <LeftBar></LeftBar> -->
 		<div class="main">
 			<TopImgBox :sliderList="sliderList" ></TopImgBox>
-			<List :list="themeDataList"></List>
+			<List :list="themeList"></List>
 		</div>
 	</div>
 </template>
@@ -23,13 +23,12 @@
 	import TopHeader from '../components/TopHeader'
 	import LeftBar from '../components/LeftBar.vue'
 	import TopImgBox from '../components/TopImgBox.vue'
-	import List from '../components/List.vue'
+	//import List from '../components/List.vue'
+	import List from '../components/themeList.vue'
 	import axios from 'axios'
 	import API from '../constants/index.js'
 	export default{
 		created:function(){
-		    //this.getNews()
-		    //console.log(this.$route.params.id)
 		    this.$store.dispatch({
 		    	type:"getThemeListNow",
 		    	id:this.$route.params.id
@@ -47,24 +46,28 @@
 			List
 		},
 		computed:{
-			themeDataList(){
+			themeList(){
 				const id=this.$route.params.id
 				//const today=moment().format('YYYYMMDD')
 				//console.log('today',this.$store.getters.homeDataList)
 
 				//return this.$store.state.homeTodayData
-				console.log(id,this.$store.state.theme.themeList[id])
+				//console.log(id,this.$store.state.theme.themeList[id])
 				return this.$store.state.theme.themeList[id]//.homeDataList
 			},
 			name(){
 				console.log(this.$store.state.topBar.name)
 				return this.$store.state.topBar.name
 			},
-		/*	list:function(){
-				return this.$store.state.list
-			},*/
 			sliderList(){
-				return this.$store.state.sliderList
+				const id=this.$route.params.id
+				if(this.$store.state.theme.themeList[id][0]){
+					return this.$store.state.theme.themeList[id][0].background
+				}
+				return ''
+				//return this.$store.state.home.homeList[0].top_stories || []
+				console.log('sliderList',this.$store.state.theme.themeList[id])
+				return this.$store.state.theme.themeList[id][0].background || ''
 			}
 		}
 	}

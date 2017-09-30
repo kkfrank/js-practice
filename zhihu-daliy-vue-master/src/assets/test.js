@@ -61,6 +61,20 @@ function _partition(arr,lo,hi){
 /*console.log(flatten(arr))
 console.log(unique(ans))*/
 
-var arr={}
-arr[20170922]=1
-console.log(arr)
+
+var arr=[{
+	stories:[1,2,3,4]
+},{
+stories:[5,6,7]
+},{
+	stories:[8,9]
+}]
+
+var ans={};
+ans.stories=[].concat(arr[0].stories)
+
+for(var i=1;i<arr.length;i++){
+	ans.stories=ans.stories.concat(arr[i].stories)
+}
+console.log(ans)
+
