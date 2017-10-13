@@ -22,7 +22,6 @@
 </template>
 
 <script>
-	import axios from 'axios'
 	import logo from '../assets/logo.png'
 	require('es6-promise').polyfill();
 	import moment from 'moment'

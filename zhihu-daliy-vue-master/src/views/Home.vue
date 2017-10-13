@@ -9,10 +9,6 @@
 				<span><icon name="bell-o"></icon></span>
 				<span><icon name="ellipsis-v"></icon></span>	
 			</div>
-<!-- 
-			<div class="navbar-right-theme" slot="right" v-show="type=='theme'">
-				<icon name="plus-circle" scale=1.2></icon>
-			</div> -->
 
 		</TopHeader>
 
@@ -26,27 +22,28 @@
 
 <script>
 	import TopHeader from '../components/TopHeader'
-	import LeftBar from '../components/LeftBar.vue'
 	import TopImgBox from '../components/TopImgBox.vue'
 	import List from '../components/List.vue'
-	import axios from 'axios'
-	import API from '../constants/index.js'
-	import moment from 'moment'
-	const today=moment().format('YYYYMMDD')
 	export default{
 		created:function(){
-		    //this.getNews()
-		    console.log('home created')
+		/*	console.log('homde created',this.$store.state.prevScrollTop)
 		    this.$store.dispatch({//获取当天列表的数据
-		    	type:"getHomeListToday"
-		    })
-		    document.body.scrollTop=this.$store.state.prevScrollTop+"px"
+		    	type:"getHomeLatest"
+		    })*/
+		   // document.body.scrollTop=this.$store.state.prevScrollTop+"px"
+		   	this.$store.commit('setTopBar',{type:"list",name:"首页"})//从详情页进来，需要修改title
 		},
-	/*	beforeRouteLeave(to,from,next){
-			console.log('beforeEnter',to,from)
-			this.$store.state.prevScrollTop=document.body.scrollTop
-			next()
-		},*/
+		beforeRouteEnter(to,from,next){
+			next(vm=>{
+				if(!from.path.match(/^\/detail/) || vm.homeDataList.length===0){
+					vm.$store.dispatch({//获取当天列表的数据
+		    			type:"getHomeLatest"
+				    })
+				}else{//从详情页面返回
+					vm.$store.commit('setScrollTop')	
+				}
+			})
+		},
 	 	methods:{
 			showLeftBar(){
 				this.$store.commit('showLeftBar')
@@ -54,7 +51,7 @@
 		},
 		components:{
 			TopHeader,
-			LeftBar,
+			//LeftBar,
 			TopImgBox,
 			List
 		},
@@ -63,8 +60,8 @@
 				return this.$store.state.topBar.type
 			},
 			homeDataList(){
-				//return this.$store.state.home.homeList
-				return this.$store.getters.homeListTillDay
+				return this.$store.state.home.homeList
+				//return this.$store.getters.homeListTillDay
 			},
 			sliderList(){
 				if(!this.$store.state.home.homeList[0]){

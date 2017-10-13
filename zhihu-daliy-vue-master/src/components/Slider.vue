@@ -3,10 +3,8 @@
 		<div class="slider-inner" :style="{width:list.length+'00%',left:left}">
 			<router-link :to="'/detail/'+item.id" v-for="item in list" :key="item.id" class="slider-link" :style="{backgroundImage:'url('+item.image+')'}">
 				<!-- <img :src="item.image"/> -->
-					<div class="detail-overlay">
-						<h3>{{item.title}}</h3>
-					</div>
-			
+					<div class="detail-overlay"></div>
+					<h3>{{item.title}}</h3>
 			</router-link>
 		</div>
 		<ul class="slider-nums" v-on:click="jumpTopage">
@@ -18,11 +16,7 @@
 <script>
 	export default{
 		props:['list',"defaultActive"],
-		created:function(){
-			//console.log(this.active,typeof(this.active))
-		},
 		computed:{
-			
 			left:function(){//active:下标从1开始
 				if(this.active-1===0){
 					return 0;

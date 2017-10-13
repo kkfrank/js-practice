@@ -1,7 +1,3 @@
-// import moment from 'moment'
-// import Vue from 'vue'
-// import axios from 'axios'
-//import API from '../constants/index.js'
 import API from '../api/index.js'
 
 const detailModule={
@@ -36,6 +32,8 @@ const detailModule={
 	},
 	actions:{
 		getDetail(context,{id}){
+			//context.commit('setTopBar',{type:"detail",name:""})
+			context.commit('setTopBar',{type:"detail"})
 			API.getNewsDetail(id)
 				.then(data=>{
 					context.state.content=data//.data

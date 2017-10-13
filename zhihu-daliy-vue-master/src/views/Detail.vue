@@ -15,10 +15,9 @@
 		<div class="detial-box">
 			<div v-if="detail.image" class="detail-img-box" :style="{backgroundImage:'url('+detail.image+')'}">
 				<!-- <img :src="url" alt="picture"> -->
-				<div class="detail-overlay">
-					<h2>{{detail.title}}</h2>
-					<span>{{detail.image_source}}</span>
-				</div>
+				<div class="detail-overlay"></div>
+				<h2>{{detail.title}}</h2>
+				<span>{{detail.image_source}}</span>
 			</div>
 			<div v-html='detail.body && detail.body.replace(/http:/g,"https:")' class="detail-content-box"></div>
 		</div>
@@ -39,8 +38,9 @@
 			detail:state=>state.detail.content,
 			extra:state=>state.detail.extra
 		}),
-	/*	computed:{
+/*		computed:{
 			detail:function(){
+				console.log('detail',this.$store.state.detail.content)
 				return this.$store.state.detail.content
 			},
 			extra:function(){
@@ -54,6 +54,10 @@
 			}
 		},
 		created:function(){
+			console.log('before',document.body.scrollTop)
+			this.$store.state.prevScrollTop=document.body.scrollTop
+			document.body.scrollTop=0
+			
 			const id=this.$route.params.id
 			this.$store.dispatch({
 				type:"getDetail",
@@ -64,9 +68,7 @@
 				id
 			})
 			//this.prevScrollTop=document.body.scrollTop
-			console.log('before',document.body.scrollTop)
-			this.$store.state.prevScrollTop=document.body.scrollTop
-			document.body.scrollTop=0
+		
 		},
 		components:{
 			TopHeader
@@ -76,6 +78,9 @@
 </script>
 
 <style>
+	.detial-box{
+		margin-top: 50px;
+	}
 	.detail-img-box{
 		position: relative;
 	    height: 230px;
@@ -83,7 +88,6 @@
 	    background-size: cover;
     	background-repeat: no-repeat;
     	background-position: 0 -86px;
-    	margin-top: 50px;
 	}
 	.detail-overlay{
 	    width: 100%;

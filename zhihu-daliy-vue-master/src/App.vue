@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<!-- <TopBar/> -->
 		<div class="loading"></div>
 		<router-view name="main"></router-view>
 		<router-view name="leftbar"></router-view>
@@ -8,40 +7,33 @@
 </template>
 
 <script>
-	import TopBar from './components/TopBar'
-	//import Home from './views/Home.vue'
-
 	export default{
-		data(){
-			return{
-				msg:"hello world"
-			}
-		},
-		
-		components:{
-			TopBar,
-		},
 		computed:{
-			type:function(){
+		/*	type:function(){
+				console.log('computed',this.$store.state.topBar.type)
 				return this.$store.state.topBar.type
-			}
+			}*/
 		},
 		created(){
-		    this.$store.dispatch({//获取theme的种类
+		    this.$store.dispatch({//获取leftbar中theme的种类
 		    	type:"getThemesTypes"
 		    })
 
-			var that=this,type=this.type,isUp=true
+			var that=this,isUp=true
 		    window.addEventListener('scroll',function(ev){
-		    	//console.log(document.body.scrollTop)
+		    	var type=that.$store.state.topBar.type
+	    	 	if(type!=="list" && type !=="theme"){
+		    		return
+		    	}
 		    	if(document.body.scrollTop===0){//到顶了
 		    		console.log('到顶了',type)
 		    		isUp=true
 		    	}else{
 		    		isUp=false
 		    	}
-		    	if(document.body.scrollTop+document.documentElement.clientHeight>=document.documentElement.scrollHeight){
-		    		console.log('到底了',type)
+		    	//if(document.body.scrollTop+document.documentElement.clientHeight>=document.documentElement.scrollHeight){
+	    		if(document.body.scrollTop !==0 && document.body.scrollTop+document.documentElement.clientHeight===document.documentElement.scrollHeight){
+		    		console.log('到底了',type,that.$store.state.topBar.type)
 		    		if(type==="list" || type==="theme"){
 		    			that.$store.dispatch({
 			    			type:"loadMore",
@@ -49,13 +41,16 @@
 			    		})	
 		    		}
 		    	}
-		    	//console.log(document.body.scrollTop,window.innerHeight,document.documentElement.clientHeight,document.documentElement.scrollHeight)
 		    })
 		    var validTouch=false,startY=0,prevMoveY=0
 	
-		    window.addEventListener('touchstart',function(ev){
+		    window.addEventListener('touchstart',function(ev){//刷新
+		    /*	var type=that.$store.state.topBar.type
+		    	if(type!=="list" && type !=="theme"){
+		    		return
+		    	}*/
 		    	var main=document.querySelector('.main')
-		    	if(isUp && (ev.target===main || main.contains(ev.target))){//滑动的是main元素
+		    	if(isUp && main && (ev.target===main || main.contains(ev.target))){//滑动的是main元素
 		    		validTouch=true
 		    		prevMoveY=startY=ev.touches[0].pageY
 		    	}else{
@@ -76,10 +71,19 @@
       		    loading.style.top=y+"px"
 		    })
 	        window.addEventListener('touchend',function(ev){
+	        	var type=that.$store.state.topBar.type
 	        	if(!validTouch){
 	      			return
 	      		}
-	      		that.$store.dispatch('getHomeListToday')
+      			if(type==="list"){//刷新主页
+	    			that.$store.dispatch('getHomeLatest')
+	    		}else{
+					that.$store.dispatch({
+		    			type:"getThemeListNow",
+		    			id:that.$route.params.id
+		    		})
+	    		}
+	      		
 	      		var loading=document.querySelector('.loading')
 	      		loading.style.top=0
 		    })
@@ -102,9 +106,6 @@
 	}
 	li{
 		list-style: none;
-	}
-	.router-link-active{
-		color: #f00;
 	}
 	.loading{
 	    position: fixed;

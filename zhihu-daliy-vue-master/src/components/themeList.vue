@@ -17,7 +17,6 @@
 </template>
 
 <script>
-	import axios from 'axios'
 	import logo from '../assets/logo.png'
 	require('es6-promise').polyfill();
 	import moment from 'moment'
@@ -34,9 +33,7 @@
 			}
 		},
 		computed:{
-
 			newList(){
-
 				var data={...this.list[0]}
 				for(var i=1,item;item=this.list[i++];){
 					//anotherList.push.coancat(){...this.list[0].stories,...item.stories}
@@ -44,15 +41,10 @@
 
 					data.stories=data.stories.concat(item.stories)
 				}
-				console.log('list',this.list)
-				console.log('123456',data)
+				//console.log('list',this.list)
+				//console.log('123456',data)
 				return {...data}
 			},
-			editorList(){
-				//return this.$store.state.editorList
-			}
-		
-			
 		},
 		//props:['list','data'],
 		props:['list'],

@@ -39,7 +39,6 @@
 </template>
 
 <script>
-	import axios from 'axios'
 	import API from '../constants/index.js'
 	import Icon from 'vue-awesome/components/Icon.vue'
 
@@ -71,10 +70,10 @@
 		methods:{
 			jumpHome(){
 			    this.$store.dispatch({//获取当天列表的数据
-			    	type:"getHomeListToday"
+			    	type:"getHomeLatest"
 			    })
-				console.log(123)
 				this.$router.push({path:"/"})
+				this.$store.commit('hideLeftBar')
 				//this.$router.go(0)
 			},
 			hideLeftBar(ev){
@@ -158,7 +157,6 @@
 	.leftbar-bottom .jump-home{
 	    display: block;
 		padding-left:30px; 
-		background-color: #eee;
 	    font-size: 16px;
 	    height: 36px;
 	    line-height: 36px;
@@ -188,5 +186,8 @@
 	    color: #666;
         margin-right: 60px;
 	}
-
+	.router-link-active{
+		/*color: #f00;*/
+		background-color: #eee;
+	}
 </style>

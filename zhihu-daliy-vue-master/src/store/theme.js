@@ -1,9 +1,6 @@
 import axios from 'axios'
-import moment from 'moment'
+import API from '../api/index.js'
 
-import API from '../constants/index.js'
-
-let today=moment().format('YYYYMMDD')
 const moduleTheme={
 	state:{
 		//searchDay:today,
@@ -21,18 +18,16 @@ const moduleTheme={
 			11:[],//不许无聊
 			12:[],//用户推荐日报
 			13:[]//日常心理学
-		}
+		},
+		//editorList:[]
 	},
 	getters:{
-
 	},
 	mutations:{
 		setThemeTypes(state,data){
 			state.themeTypes=data
 		},
 		setThemeList(state,{type,data,fresh}){
-			//console.log('setThemeList',type,data)
-			//console.log(state.themeList)
 			if(fresh){//刷新
 				state.themeList[type]=[{...data}]
 			}else{
@@ -42,7 +37,7 @@ const moduleTheme={
 	},
 	actions:{
 		getThemesTypes(context){
-			axios.get(API.themes)
+			API.getThemesTypes()
 				.then(data=>{
 					context.commit('setThemeTypes',data.data.others)
 				})
@@ -52,26 +47,19 @@ const moduleTheme={
 		},
 		getThemeListNow(context,{id},rootState,rootGetters){
 			context.commit('hideLeftBar')
-			today=moment().format('YYYYMMDD')
 			context.commit('setLoading',true)
-			context.commit('setSearchDay',today)
-
-			axios.get(API.themesIDList+id)
+			API.getThemeListNow(id)
 				.then(data=>{
-					//console.log('theme',data)
 					context.commit('setThemeList',{
 						type:id,
 						data:data.data,
 						fresh:true
-						//time:today
 					})
-					//context.commit('setList',data.data.stories)
-					//context.commit('setEditorList',data.data.editors)
-					//context.commit('setSliderList',data.data.background || data.data.top_stories)
 					context.commit("setTopBar",{
 						type:"theme",
 						name:data.data.name
 					})
+					context.commit('setEditorList',data.data.editors)
 					context.commit('setLoading',false)
 				})
 				.catch(err=>{

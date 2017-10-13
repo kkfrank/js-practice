@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 // return request(`/api/users?_page=${page}&_limit=${PAGE_SIZE}`);
 
 //https://news-at.zhihu.com/api/4/news/latest
@@ -19,6 +20,37 @@ const getThemeListByDate=(themeId,beforeId)=>BaseUrl+`/theme/${themeId}/before/$
 
 
 export default{
+	getHomeLatest(){//获取主页的最新消息
+		return new Promise((resolve,reject)=>{
+			axios.get(BaseUrl+'/news/latest')
+				.then(data=>{
+					resolve(data.data)
+				})
+				.catch(err=>{
+
+				})
+		})
+	},
+	getNewsByDate(date){
+		return new Promise((resolve,reject)=>{
+			axios.get(BaseUrl+`/news/before/${date}`)
+				.then(data=>{
+					resolve(data)
+				})
+				.catch(err=>{
+
+				})
+		})
+	},
+	getThemeListByDate(themeId,beforeId){
+		return axios.get(BaseUrl+`/theme/${themeId}/before/${beforeId}`)
+	},
+	getThemesTypes(){
+		return axios.get(BaseUrl+'/themes')
+	},
+	getThemeListNow(id){
+		return axios.get(BaseUrl+'/theme/'+id)
+	},
 	getNewsDetail(id){
 		return new Promise((resolve,reject)=>{
 			axios.get(BaseUrl+'/news/'+id)

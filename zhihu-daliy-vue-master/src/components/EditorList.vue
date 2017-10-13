@@ -7,7 +7,8 @@
 		</TopHeader>
 		<div class="editor-box">
 			<!-- <router-link :to="'editor/'+item.id" v-for="item in editorList" :key="item.id" class="editor-item"> -->
-			<a  @click.prevent="jumpDetail" v-for="item in editorList" class="editor-item" :data-href="getEditor(item.id)">
+		<!-- 	<a  @click.prevent="jumpDetail" v-for="item in editorList" class="editor-item" :data-href="getEditor(item.id)"> -->
+			<a :href="getEditor(item.id)" target="_blank" v-for="item in editorList" class="editor-item">
 				<div><img :src="item.avatar.replace('http:','https:')"/></div>
 				<div class="editor-profile">
 					<div>{{item.name}}</div>

@@ -12,11 +12,6 @@
 
 <script>
 	import TopHeader from '../components/TopHeader'
-	import LeftBar from '../components/LeftBar.vue'
-	import TopImgBox from '../components/TopImgBox.vue'
-	import List from '../components/List.vue'
-	import axios from 'axios'
-	import API from '../constants/index.js'
 	export default{
 		created:function(){
 		    //this.getNews()
@@ -31,9 +26,6 @@
 		},
 		components:{
 			TopHeader,
-			LeftBar,
-			TopImgBox,
-			List
 		},
 		computed:{
 			name(){

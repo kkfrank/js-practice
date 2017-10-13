@@ -1,8 +1,10 @@
-var arr=[2,5,7,8,4,5,1,2,[3,4,5,[6,7,8],8],8810,[8,8]]
+/**
+	1.扁平化数组
+**/
+var arr=[1,2,[3,4],[3,4,[5],6,7],8,[9,10],11]
 
-console.log({}.toString.call(arr))
 var ans=[]
-function flatten(arr){
+function flatten1(arr){
 	for(var i=0,item;item=arr[i++];){
 		if(Object.prototype.toString.call(item)==="[object Array]"){
 			flatten(item)
@@ -12,7 +14,42 @@ function flatten(arr){
 	}
 	return ans
 }
+
+function flatten2(arr,ans){
+	if(!ans){
+		ans=[]
+	}
+	for(var i=0;i<arr.length;i++){
+		if(Array.isArray(arr[i])){
+			flatten3(arr[i],ans)
+		}else{
+			ans.push(arr[i])
+		}
+	}
+	return ans
+}
+function flatten3(arr){
+	return arr.reduce(function(prev,item,index){
+		return prev.concat(Array.isArray(item) ? flatten4(item) : item)
+		/*if(Array.isArray(item)){
+			prev=prev.concat(flatten4(item))
+		}else{
+			prev.push(item)
+		}
+		return prev*/
+	},[])
+}
+function flatten4(arr){//number会转换成string
+	return arr.toString().split(',')
+}
+
+/**
+	1.数组去重
+**/
 function unique(arr){
+	
+}
+/*function unique(arr){
 	var map={},ans=[]
 	for(var i=0,len=arr.length;i<len;i++){
 		var item=arr[i]
@@ -26,7 +63,7 @@ function unique(arr){
 	quickSort(ans)
 	return ans//.sort((a,b)=>a-b)
 }
-
+*/
 
 
 function quickSort(arr){
@@ -58,23 +95,46 @@ function _partition(arr,lo,hi){
 	return j
 }
 
-/*console.log(flatten(arr))
-console.log(unique(ans))*/
 
-
-var arr=[{
-	stories:[1,2,3,4]
-},{
-stories:[5,6,7]
-},{
-	stories:[8,9]
-}]
-
-var ans={};
-ans.stories=[].concat(arr[0].stories)
-
-for(var i=1;i<arr.length;i++){
-	ans.stories=ans.stories.concat(arr[i].stories)
+var config1={
+	render:"#t1",
+	friends:[1,2,3,4,5],
+	async:{
+		fn:function(){
+			console.log(this)
+		}
+	}
 }
-console.log(ans)
+function clone(source){
+	//var list=[].slice.call(arguments)
+	if(typeof source!=='object'){
+		return source
+	}
+	var target=Array.isArray(source)?[]:{}
+	for(var i in source){
+		if(typeof source[i]!=='object'){//基本类型
+			target[i]=source[i]
+		}else{
+			target[i]=clone(source[i])
+		}
+	}
+	return target
+
+}
+function extend(){
+	var target=arguments[0]
+	for(var i=1;i<arguments.length;i++){
+		for(var j in arguments[i]){
+			target[j]=clone(arguments[i][j])
+			//target[j]=arguments[i][j]
+		}
+	}
+	return target
+}
+var target=extend({},config1,{render:"#t2"})
+/*console.log('----------')
+console.log(target)
+console.log(target.friends===config1.friends)*/
+
+
 

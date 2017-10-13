@@ -1,7 +1,7 @@
 <template>
 	<header class="navbar">
 		<slot name="left"></slot>
-		<h1 v-show="title!=null" h1 class="navbar-title">{{title}}</h1>
+		<h1 v-show="title!=null" class="navbar-title">{{title}}</h1>
 		<slot name="right"></slot>
 	</header>
 </template>
@@ -36,7 +36,7 @@
 		margin-top: 4px;
 	}
 	.navbar-right{
-		flex: 2;
+		flex: 1;
 	    display: flex;
     	justify-content: space-between;
 	}

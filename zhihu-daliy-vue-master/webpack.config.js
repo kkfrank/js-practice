@@ -1,5 +1,6 @@
 var BundleAnalyzerPlugin=require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var webpack=require('webpack')
+var ExtractTextPlugin=require('extract-text-webpack-plugin')
 module.exports={
 	entry:{
 		bundle:'./src/index.js',
@@ -11,7 +12,8 @@ module.exports={
 		filename:'[name].js'
 	},
 	module:{
-		rules:[{
+		rules:[
+	/*	{
 			test:/\.scss$/,
 			use:[{
 				loader:'style-loader'
@@ -20,7 +22,8 @@ module.exports={
 			},{
 				loader:'sass-loader'
 			}]
-		},{
+		},*/
+		{
 			test:/\.js$/,
 			exclude:/node_modules/,
 			use:[{
@@ -29,7 +32,10 @@ module.exports={
 		},{
 			test:/\.vue$/,
 			use:[{
-				loader:'vue-loader'
+				loader:'vue-loader',
+				options:{
+					extractCSS:true
+				}
 			}]
 		},{
 			test:/\.(png|jpg|gif)$/,
@@ -50,9 +56,11 @@ module.exports={
 	},
 	devtool:'cheap-eval-source-map',
 	plugins:[
-		new BundleAnalyzerPlugin(),
+		//new BundleAnalyzerPlugin(),
 		new webpack.optimize.CommonsChunkPlugin({
 			name:"vendor"
-		})
+		}),
+		//new ExtractTextPlugin('style.css')
+		new ExtractTextPlugin('[name].css')
 	]
 }

@@ -28,7 +28,9 @@ const routes=[{
 	}
 },{
 	path:"/editors",
-	component:EditorList
+	components:{
+		main:EditorList
+	}
 },{
 	path:"/editor/:id",
 	component:EditorItem
